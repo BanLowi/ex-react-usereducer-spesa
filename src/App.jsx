@@ -43,7 +43,7 @@ function App() {
   }
 
   const updateProductQuantity = (prod, quant) => {
-    setAddedProducts(curr => curr.map(p => p.name === prod ? { ...p, quantity: Number(quant) } : p))
+    setAddedProducts(curr => curr.map(p => p.name === prod ? { ...p, quantity: Number(quant).toFixed(0) } : p))
   }
 
   const reduceTotal = (tot, num) => {

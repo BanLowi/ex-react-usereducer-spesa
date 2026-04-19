@@ -10,7 +10,6 @@ const products = [
 function App() {
 
   const [addedProducts, setAddedProducts] = useState([]);
-  console.log(addedProducts);
 
   const addToCart = (prod) => {
 
@@ -43,8 +42,12 @@ function App() {
     }
   }
 
+  const updateProductQuantity = (prod, quant) => {
+    setAddedProducts(curr => curr.map(p => p.name === prod ? { ...p, quantity: Number(quant) } : p))
+  }
+
   const reduceTotal = (tot, num) => {
-    return tot + (num.price * num.quantity).toFixed(2)
+    return tot + Number((num.price * num.quantity).toFixed(2))
   }
 
   return (
@@ -70,8 +73,16 @@ function App() {
           {
             addedProducts && addedProducts.map((p, index) =>
               <li key={index}>
-                <p>Nome: {p.name}, Prezzo: {(p.price * p.quantity).toFixed(2)} €</p>
+                <p>Nome: {p.name},
+                  Prezzo: {(p.price * p.quantity).toFixed(2)} €,
+                  Quantità:
+                  <input type="number"
+                    min={1}
+                    value={p.quantity}
+                    onChange={(e) => updateProductQuantity(p.name, e.target.value)} />
+                </p>
                 <button onClick={() => removeFromCart(p)}>Rimuovi dal Carrello</button>
+
               </li>)
           }
         </ul>
